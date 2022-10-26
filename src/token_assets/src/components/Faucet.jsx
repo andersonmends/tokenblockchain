@@ -1,5 +1,8 @@
+import { constants } from "buffer";
+import { create } from "domain";
 import React, { useState } from "react";
-import { token } from "../../../declarations/token/index";
+import { AuthClient } from "../../../../node_modules/@dfinity/auth-client/lib/cjs/index";
+import { canisterId, createActor, token } from "../../../declarations/token/index";
 
 function Faucet() {
 
@@ -8,7 +11,22 @@ function Faucet() {
 
   async function handleClick(event) {
     setDisabled(true);
+
+    // In case deploy canister online, on live ICP blockchain 
+    // const authClient = await AuthClient.create();
+    // const identity = await authClient.getIdentity();
+
+    // const authenticatedCanister = createActor(canisterId, {
+    //   agentOptions: {
+    //     identity,
+    //   },
+    // });
+
     const result = await token.payOut();
+    // In case deploy canister online, on live ICP blockchain 
+    // const result = await authenticatedCanister.payOut();
+    
+    
     setText(result);
   }
 
